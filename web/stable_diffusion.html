@@ -19,7 +19,8 @@
 
 <div>
   Select Model:   <select name="model" id="modelId">
-    <option selected="selected">Stable-Diffusion-XL</option>
+    <option selected="selected">SDXL-turbo</option>
+    <option >Stable-Diffusion-XL</option>
     <option>Stable-Diffusion-1.5</option>
   </select>
 </div>
@@ -46,7 +47,8 @@
   <select name="scheduler" id="schedulerId">
     <option value="0">Multi-step DPM Solver (20 steps)</option>
     <option value="1">PNDM (50 steps)</option>
-    <option value="2">Euler Discrete Scheduler</option>
+    <option value="2">Euler Discrete Scheduler (50 steps)</option>
+    <option value="3">Euler Ancestral Discrete Scheduler (2 steps)</option>
   </select>
 
   <br>
@@ -71,14 +73,17 @@
       var schedulerDropdown = document.getElementById('schedulerId');
       
       if (selectedModel === 'Stable-Diffusion-XL') {
-          schedulerDropdown.value = '2'; // Set to Multi-step DPM Solver
-          // Optionally, disable other options
+          schedulerDropdown.value = '2';
           for (var i = 0; i < schedulerDropdown.options.length; i++) {
               schedulerDropdown.options[i].disabled = (schedulerDropdown.options[i].value !== '2');
           }
-      } else {
-          schedulerDropdown.value = '0'; // Set to Multi-step DPM Solver
-          // Optionally, disable other options
+      } else if(selectedModel === 'SDXL-turbo') {
+          schedulerDropdown.value = '3';
+          for (var i = 0; i < schedulerDropdown.options.length; i++) {
+            schedulerDropdown.options[i].disabled = (schedulerDropdown.options[i].value !== '3');
+          }
+      } else{
+          schedulerDropdown.value = '0';
           for (var i = 0; i < schedulerDropdown.options.length; i++) {
               schedulerDropdown.options[i].disabled = (schedulerDropdown.options[i].value !== '0' && schedulerDropdown.options[i].value !== '1');
           }

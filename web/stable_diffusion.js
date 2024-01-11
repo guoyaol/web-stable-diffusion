@@ -741,7 +741,7 @@ class StableDiffusionInstance {
     this.config = undefined;
     this.generateInProgress = false;
     this.logger = console.log;
-    this.model = "Stable-Diffusion-XL"
+    this.model = "SDXL-turbo"
   }
   /**
    * Initialize TVM
@@ -826,7 +826,11 @@ class StableDiffusionInstance {
     for (let i = 0; i < schedulerConstUrl.length; ++i) {
       schedulerConst.push(await (await fetch(schedulerConstUrl[i])).json())
     }
-    if (this.model == "Stable-Diffusion-XL") {
+    if (this.model == "SDXL-turbo") {
+      console.log("entered SDXL-turbo pipeline")
+    }
+    else if (this.model == "Stable-Diffusion-XL") {
+      console.log("entered SD pipeline")
       const tokenizer1 = await tvmjsGlobalEnv.getTokenizer(tokenizerName);
       const tokenizer2 = await tvmjsGlobalEnv.getTokenizer(tokenizerName2);
       this.pipeline = this.tvm.withNewScope(() => {
@@ -834,7 +838,7 @@ class StableDiffusionInstance {
       });
       await this.pipeline.asyncLoadWebGPUPipelines();
     }
-    else {
+    else if (this.model == "Stable-Diffusion-1.5") {
       console.log("entered SD pipeline")
       const tokenizer = await tvmjsGlobalEnv.getTokenizer(tokenizerName);
       this.pipeline = this.tvm.withNewScope(() => {
